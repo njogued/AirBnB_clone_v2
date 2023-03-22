@@ -9,7 +9,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from models.base_model import Base
+from models.base_model import Base, BaseModel
 
 
 class DBStorage:
@@ -21,41 +21,40 @@ class DBStorage:
         pwrd = ge('HBNB_MYSQL_PWD')
         host = ge('HBNB_MYSQL_HOST')
         dtbs = ge('HBNB_MYSQL_DB')
-        self.__engine = ce(f'mysql+mysqldb://{user}:{pwrd}@{host}/{dtbs}', pool_pre_ping=True)
+        DBStorage.__engine = ce(f'mysql+mysqldb://{user}:{pwrd}@{host}/{dtbs}', pool_pre_ping=True)
         if ge('HBNB_ENV') == 'test':
             metadata = md()
-            metadata.reflect(bind=engine)
-            metadata.drop_all(bind=engine)
+            metadata.reflect(bind=DBStorage.__engine)
+            metadata.drop_all(bind=DBStorage.__engine)
 
     def all(self, cls=None):
-        classes = [User, Place, State, City, Amenity, Review]
-        Session = sm(bind=self.__engine)
-        self.__session = Session()
+        classes = [State, City]
+        Session = sm(bind=DBStorage.__engine)
+        DBStorage.__session = Session()
         all_results = {}
         if cls and cls in classes:
-            instances = self.__session.query(cls).all()
+            instances = DBStorage.__session.query(cls).all()
         else:
             instances = []
             for i in classes:
-                instances.extend(self.__session.query(i).all())
+                instances.extend(DBStorage.__session.query(i).all())
         for obj in instances:
-            key = f"{obj.__class__.___name__}.{obj.id}"
+            key = f"{obj.__class__.__name__}.{obj.id}"
             all_results[key] = obj
         DBStorage.__session.close()
         return all_results
 
     def new(self, obj):
-        self.__session.add(obj)
+        DBStorage.__session.add(obj)
 
     def save(self):
-        self.__session.commit()
+        DBStorage.__session.commit()
 
     def delete(self, obj=None):
         if obj:
-            self.__session.delete(obj)
+            DBStorage.__session.delete(obj)
 
     def reload(self):
-        Base.metadata.create_all(self.__engine)
-        Session = sm(bind=self.__engine, expire_on_commit=False)
-        scoped = scoped_session(Session)
-        self.__session = scoped()
+        Base.metadata.create_all(DBStorage.__engine)
+        Session = sm(bind=DBStorage.__engine, expire_on_commit=False)
+        DBStorage.__session = scoped_session(Session)
