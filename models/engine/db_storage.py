@@ -28,7 +28,7 @@ class DBStorage:
             metadata.drop_all(bind=DBStorage.__engine)
 
     def all(self, cls=None):
-        classes = [State, City, Place, User, Review]
+        classes = [Amenity, State, City, Place, User, Review]
         Session = sm(bind=DBStorage.__engine)
         DBStorage.__session = Session()
         all_results = {}
