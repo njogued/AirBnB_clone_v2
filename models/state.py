@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from os import getenv as ge
 
 
 class State(BaseModel, Base):
@@ -16,5 +17,5 @@ class State(BaseModel, Base):
     if ge("HBNB_TYPE_STORAGE") != 'db':
         @property
         def cities(self):
-            '''return list of cities if not using a database'''
+            '''return list of cities'''
             return [city for city in self.cities]
