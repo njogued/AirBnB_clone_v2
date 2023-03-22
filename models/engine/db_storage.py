@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''DBStorage'''
 from sqlalchemy import create_engine as ce, MetaData as md
-from sqlalchemy.orm import sessionmaker as sm, relationship as rm
+from sqlalchemy.orm import sessionmaker as sm, relationship as rm, scoped_session
 from os import getenv as ge
 from models.user import User
 from models.place import Place
@@ -57,5 +57,5 @@ class DBStorage:
     def reload(self):
         Base.metadata.create_all(self.__engine)
         Session = sm(bind=self.__engine, expire_on_commit=False)
-        scoped_session = scoped_session(Session)
-        self.__session = scoped_session()
+        scoped = scoped_session(Session)
+        self.__session = scoped()
