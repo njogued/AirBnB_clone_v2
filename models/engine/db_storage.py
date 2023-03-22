@@ -3,6 +3,13 @@
 from sqlalchemy import create_engine as ce, MetaData as md
 from sqlalchemy.orm import sessionmaker as sm, relationship as rm
 from os import getenv as ge
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+from models.base_model import Base
 
 
 class DBStorage:
@@ -21,24 +28,34 @@ class DBStorage:
             metadata.drop_all(bind=engine)
 
     def all(self, cls=None):
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
         classes = [User, Place, State, City, Amenity, Review]
-        Session = sm(self.__engine)
-        DBStorage.__session = Session()
+        Session = sm(bind=self.__engine)
+        self.__session = Session()
         all_results = {}
         if cls and cls in classes:
-            instances = DBStorage.__session.query(cls).all()
-        else if cls is None:
+            instances = self.__session.query(cls).all()
+        else:
             instances = []
             for i in classes:
-                instances.extend(DBStorage.__session.query(i).all())
+                instances.extend(self.__session.query(i).all())
         for obj in instances:
-            key = f"{obj.__class__.___name__}"."{obj.id}"
+            key = f"{obj.__class__.___name__}.{obj.id}"
             all_results[key] = obj
         DBStorage.__session.close()
         return all_results
+
+    def new(self, obj):
+        self.__session.add(obj)
+
+    def save(self):
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        if obj:
+            self.__session.delete(obj)
+
+    def reload(self):
+        Base.metadata.create_all(self.__engine)
+        Session = sm(bind=self.__engine, expire_on_commit=False)
+        scoped_session = scoped_session(Session)
+        self.__session = scoped_session()
