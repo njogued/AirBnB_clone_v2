@@ -12,18 +12,18 @@ from datetime import datetime
 def do_pack():
     """Function to  archive webstatic folder & contents"""
     now = datetime.now()
-    year, month, day = now.year, now.month, now.day
-    hour, minute, second = now.hour, now.minute, now.second
+    t_stamp = now.strftime('%Y%m%d%H%M%S')
 
     if not os.path.exists("versions"):
         os.makedirs("versions")
-    _path = f"versions/web_static_{now.strftime('%Y%m%d%H%M%S')}.tgz"
 
-    cmd = f"tar -cvzf {_path} web_static"
+    file_name = f"versions/web_static_{t_stamp}.tgz"
+
+    cmd = f"tar -cvzf {file_name} web_static"
 
     result = local(cmd)
 
     if result.return_code != 0:
         return None
     else:
-        return _path
+        return file_name
