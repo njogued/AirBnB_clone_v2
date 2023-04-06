@@ -36,16 +36,16 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/")
 
         """create remote directory if not exists"""
-        run("sudo mkdir -p {}".format(remote_dir))
+        run("sudo mkdir -p {}/".format(remote_dir))
 
         """extracts contents of archive to remote dir"""
-        run("sudo tar -xvzf /tmp/{} -C {}".format(comp_file, remote_dir))
+        run("sudo tar -xvzf /tmp/{} -C {}/".format(comp_file, remote_dir))
 
         """delete archive from server"""
         run("sudo rm /tmp/{}".format(comp_file))
 
         """move contents of webstatic to remote dir"""
-        run("sudo mv {}/web_static/* {}".format(remote_dir, remote_dir))
+        run("sudo mv {}/web_static/* {}/".format(remote_dir, remote_dir))
 
         """delete the webstatic dir from remote dir"""
         run("sudo rm -rf {}/web_static".format(remote_dir))
