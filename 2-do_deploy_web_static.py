@@ -16,7 +16,7 @@ env.key_filename = '~/.ssh/school'
 
 def do_deploy(archive_path):
     """ftn deploys code and decompresses it"""
-    if not os.path.isfile(archive_path):
+    if not os.path.exists(archive_path):
         return False
 
     """extract filename of archive from its path"""
