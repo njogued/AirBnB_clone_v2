@@ -17,13 +17,13 @@ def do_pack():
 
     if not os.path.exists("versions"):
         os.makedirs("versions")
-    _path = f"versions/web_static_{year}{month}{day}{hour}{minute}{second}.tgz"
+    _path = f"versions/web_static_{now.strftime('%Y%m%d%H%M%S')}.tgz"
 
-    cmd = f"tar -cvf {_path} web_static"
+    cmd = f"tar -cvzf {_path} web_static"
 
     result = local(cmd)
 
-    if result.failed:
+    if result.return_code != 0:
         return None
     else:
         return _path
