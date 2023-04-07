@@ -3,7 +3,7 @@
 # Create several folders
 # Create a html document
 # Create a symbolic link
-# Chown
+# Chown -R user:group
 # Update nginx configuration
 # Restart the server
 
@@ -18,7 +18,7 @@ mkdir -p /data/
 mkdir -p /data/web_static/releases/
 mkdir -p /data/web_static/shared/
 mkdir -p /data/web_static/releases/test/
-echo "<!DOCTYPE html>\n<html lang="en">\n  <head></head>\n    <body>ALX is doing hard things to me</body>\n</html>" >> /data/web_static/releases/test/index.html
+echo "<!DOCTYPE html>\n<html>\n  <head></head>\n    <body>ALX is doing hard things to me</body>\n</html>" >> /data/web_static/releases/test/index.html
 
 # Symbolic link
 ln -sf /data/web_static/current /data/web_static/releases/test/
