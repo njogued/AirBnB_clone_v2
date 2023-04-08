@@ -18,10 +18,16 @@ mkdir -p /data/
 mkdir -p /data/web_static/releases/
 mkdir -p /data/web_static/shared/
 mkdir -p /data/web_static/releases/test/
-echo "<!DOCTYPE html>\n<html>\n  <head></head>\n    <body>ALX is doing hard things to me</body>\n</html>" >> /data/web_static/releases/test/index.html
+cat <<EOF > /data/web_static/releases/test/index.html
+<!DOCTYPE html>
+<html>
+	<head></head>
+	<body>ALX is doing hard things to me</body>
+</html>
+EOF
 
 # Symbolic link
-ln -sf /data/web_static/current /data/web_static/releases/test/
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -R ubuntu:ubuntu /data/
 

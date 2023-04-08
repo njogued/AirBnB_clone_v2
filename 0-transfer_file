@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Script to transfer a file from client to server
+
+if [ $# -lt 4 ]; then
+    echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+    exit 1
+fi
+filepath=$1
+ip=$2
+uname=$3
+sshpath=$4
+
+# Command to transfer file to the server
+scp -i "$sshpath" -o StrictHostKeyChecking=no "$filepath" "$uname@$ip:~/"
