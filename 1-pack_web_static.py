@@ -1,23 +1,21 @@
 #!/usr/bin/python3
-from fabric import api
+from fabric.api import local
+from datetime import datetime
 import os
-import datetime
-"""A script to pack web_static into a tgz archive
-using the function do_pack
-Execution: fab -f 1-pack_web_static.py do_pack
+"""script that generates a .tgz archive from the
+contents of the web_static folder of your AirBnB
+Clone repo, using the function do_pack
 """
 
 
 def do_pack():
-    """Func that will create the tgz archive
-    The file name is web_static_current-time
-    """
+    """Function to  archive webstatic folder & contents"""
     try:
+        t_stamp = datetime.now().strftime('%Y%m%d%H%M%S')
         if not os.path.isdir("versions"):
-            api.local("mkdir versions")
-        curr_time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-        path = f"versions/web_static_{curr_time}.tgz"
-        output = api.local(f"tar -czvf {path} web_static")
-        return path
-    except Exception:
+            local("mkdir versions")
+        file_path = "versions/web_static_{}.tgz".format(t_stamp)
+        result = local("tar -cvzf {} web_static".format(file_path))
+        return file_path
+    except Exception as e:
         return None
