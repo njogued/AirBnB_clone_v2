@@ -30,11 +30,11 @@ def do_deploy(archive_path):
         slink = "/data/web_static/current"
         api.put(archive_path, "/tmp/")
         api.run("sudo mkdir -p {}/".format(location))
-        api.run("sudo tar -xvzf /tmp/{} -C {}/".format(path_f, location))
-        api.run("sudo rm /tmp/{}".format(path_f))
-        api.run("sudo mv {}/web_static/* {}/".format(location, location))
+        api.run("sudo tar -xzf /tmp/{} -C {}/".format(path_f, location))
+        api.run("sudo rm -rf /tmp/{}".format(path_f))
+        api.run("sudo cp -r {}/web_static/* {}/".format(location, location))
         api.run("sudo rm -rf {}/web_static".format(location))
-        api.run("sudo rm -rf /data/web_static/current")
+        api.run("sudo rm -rf {}".format(slink))
         api.run("sudo ln -sf {} {}".format(location, slink))
         return True
     except Exception as e:
