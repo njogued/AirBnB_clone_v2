@@ -14,20 +14,16 @@ then
 fi
 
 # Create the folders and html file
-mkdir -p /data/
-mkdir -p /data/web_static/releases/
-mkdir -p /data/web_static/shared/
-mkdir -p /data/web_static/releases/test/
-cat <<EOF > /data/web_static/releases/test/index.html
-<!DOCTYPE html>
+sudo mkdir -p /data/web_static/shared/
+sudo mkdir -p /data/web_static/releases/test/
+echo "<DOCTYPE html>
 <html>
 	<head></head>
 	<body>ALX is doing hard things to me</body>
-</html>
-EOF
+</html>" | sudo tee /data/web_static/releases/test/index.html
 
 # Symbolic link
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -R ubuntu:ubuntu /data/
 
