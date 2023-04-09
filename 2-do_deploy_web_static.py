@@ -20,7 +20,7 @@ def do_deploy(archive_path):
     4. Unarchive the archive
     5. Point symlink to the location
     """
-    if path.exists(archive_path) == False:
+    if path.exists(archive_path) is False:
         return False
     path_f = archive_path.split("/")[-1]
     name_x = path.split(".")[0]

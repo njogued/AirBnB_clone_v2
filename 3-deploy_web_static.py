@@ -14,6 +14,7 @@ api.env.hosts = [web_01, web_02]
 api.env.user = 'ubuntu'
 api.env.key_filename = '~/.ssh/school'
 
+
 def do_pack():
     """Func that will create the tgz archive
     The file name is web_static_current-time
@@ -28,6 +29,7 @@ def do_pack():
     except Exception:
         return None
 
+
 def do_deploy(archive_path):
     """Deploys the code to webservers and decompresses it
     Steps: 1. Check if file path exists
@@ -36,7 +38,7 @@ def do_deploy(archive_path):
     4. Unarchive the archive
     5. Point symlink to the location
     """
-    if path.exists(archive_path) == False:
+    if path.exists(archive_path) is False:
         return False
     path_f = archive_path.split("/")[-1]
     name_x = path.split(".")[0]
@@ -55,6 +57,7 @@ def do_deploy(archive_path):
         return True
     except Exception as e:
         return False
+
 
 def deploy():
     """Combine archive creation and decompression and deployment"""
