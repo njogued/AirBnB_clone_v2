@@ -2,11 +2,14 @@
 from fabric import api
 import os
 import datetime
-"""A script to pack web_static into a tgz archive"""
+"""A script to pack web_static into a tgz archive
+using the function do_pack
+Execution: fab -f 1-pack_web_static.py do_pack """
 
 
 def do_pack():
-    """Func that will create the tgz archive"""
+    """Func that will create the tgz archive
+    The file name is web_static_current-time"""
     curr_time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     try:
         if not os.path.isdir("versions"):
