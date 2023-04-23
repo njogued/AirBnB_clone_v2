@@ -1,14 +1,15 @@
 #!/usr/bin/python3
-"""First flask app"""
+"""Flask task 1"""
 from flask import Flask
 
-hbnb = Flask(__name__)
+
+alxhbnb = Flask(__name__)
 
 
-@hbnb.route("/", strict_slashes=False)
-def index():
-    return "Hello HBNB"
+@alxhbnb.route("/", strict_slashes=False)
+def hbnb():
+    return "Hello HBNB!"
 
 
 if __name__ == "__main__":
-    hbnb.run(host="0.0.0.0", port=5000)
+    alxhbnb.run(host="0.0.0.0", port=5000)
