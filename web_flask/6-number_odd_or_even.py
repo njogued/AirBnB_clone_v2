@@ -38,5 +38,13 @@ def render_temp(n):
     return render_template("5-number.html", n=n)
 
 
+@hbnb.route("/number_odd_or_even/<int:n>")
+def render_odd_or_even(n):
+    if n % 2 == 0:
+        return render_template("6-number_odd_or_even.html", n=f"{n} is even")
+    else:
+        return render_template("6-number_odd_or_even.html", n=f"{n} is odd")
+
+
 if __name__ == "__main__":
     hbnb.run(host="0.0.0.0", port=5000)
